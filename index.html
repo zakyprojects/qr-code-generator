@@ -3,16 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>QR Code Generator, for links, text and Wi-Fi</title>
-  <meta name="description" content="Make a QR code for a link, text or Wi-Fi network right in your browser. Download it as PNG or SVG. Nothing is sent to a server.">
+  <title>Free QR Code Generator for Links and Wi-Fi | zakyprojects</title>
+  <meta name="description" content="Free QR code generator. Make a QR code for a link, text or Wi-Fi network right in your browser and download it as PNG or SVG. Nothing is sent to a server.">
   <link rel="canonical" href="https://zakyprojects.github.io/qr-code-generator/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Zakria Khan">
-  <meta property="og:title" content="QR Code Generator, for links, text and Wi-Fi">
-  <meta property="og:description" content="Make a QR code for a link, text or Wi-Fi network right in your browser. Download it as PNG or SVG. Nothing is sent to a server.">
+  <meta property="og:title" content="Free QR Code Generator for Links and Wi-Fi | zakyprojects">
+  <meta property="og:description" content="Free QR code generator. Make a QR code for a link, text or Wi-Fi network right in your browser and download it as PNG or SVG. Nothing is sent to a server.">
   <meta property="og:url" content="https://zakyprojects.github.io/qr-code-generator/">
-  <meta name="twitter:card" content="summary">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "QR Code Generator", "url": "https://zakyprojects.github.io/qr-code-generator/", "description": "Make a QR code for a link, text or Wi-Fi network right in your browser. Download it as PNG or SVG. Nothing is sent to a server.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Zakria Khan", "url": "https://zakyprojects.github.io/"}}</script>
+  <meta property="og:image" content="https://zakyprojects.github.io/qr-code-generator/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "QR Code Generator", "url": "https://zakyprojects.github.io/qr-code-generator/", "description": "Free QR code generator. Make a QR code for a link, text or Wi-Fi network right in your browser and download it as PNG or SVG. Nothing is sent to a server.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "author": {"@type": "Person", "name": "Zakria Khan", "url": "https://zakyprojects.github.io/"}}</script>
   <meta name="theme-color" content="#f7f6f1">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
@@ -25,6 +28,7 @@
       if (t === 'dark') document.documentElement.dataset.theme = 'dark';
     } catch (e) {}
   </script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is free, needs no account and has no limits."}}, {"@type": "Question", "name": "Is my data sent anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "No. The QR code is made in your browser. Nothing is sent to a server."}}, {"@type": "Question", "name": "How does a Wi-Fi QR code work?", "acceptedAnswer": {"@type": "Answer", "text": "When someone scans it with a phone camera, the phone offers to join that network."}}, {"@type": "Question", "name": "Who made it?", "acceptedAnswer": {"@type": "Answer", "text": "Zakria Khan, a web developer. You can see his other projects on zakyprojects.github.io."}}]}</script>
 </head>
 <body>
   <header class="top">
@@ -39,6 +43,7 @@
   </header>
 
   <main class="app">
+    <h1 class="sr-only">QR code generator</h1>
     <section class="panel form">
       <div class="tabs" role="tablist" aria-label="QR code type">
         <button type="button" role="tab" class="tab" id="tab-text" aria-selected="true" aria-controls="pane-text">Link or text</button>
@@ -95,7 +100,23 @@
     </section>
   </main>
 
-  <footer class="foot">
+  <section class="about" aria-labelledby="about-title">
+    <h2 id="about-title">About QR Code Generator</h2>
+    <p>QR Code Generator makes a QR code for a link, any text or a Wi-Fi network, right in your browser. Download it as PNG or SVG. It is a practice project by Zakria Khan (zakyprojects).</p>
+    <h3>How to use</h3>
+    <ol>
+      <li>Pick Link or text, or Wi-Fi.</li>
+      <li>Type your link or text, or the network name and password.</li>
+      <li>Pick a size and download the code as PNG or SVG.</li>
+    </ol>
+    <h3>Questions</h3>
+    <details><summary>Is it free?</summary><p>Yes. It is free, needs no account and has no limits.</p></details>
+    <details><summary>Is my data sent anywhere?</summary><p>No. The QR code is made in your browser. Nothing is sent to a server.</p></details>
+    <details><summary>How does a Wi-Fi QR code work?</summary><p>When someone scans it with a phone camera, the phone offers to join that network.</p></details>
+    <details><summary>Who made it?</summary><p>Zakria Khan, a web developer. You can see his other projects on zakyprojects.github.io.</p></details>
+  </section>
+
+<footer class="foot">
     <a href="https://zakyprojects.github.io/">Made by Zakria</a>
   </footer>
 
