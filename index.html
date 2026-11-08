@@ -1,44 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator, for links, text and Wi-Fi</title>
+  <meta name="description" content="Make a QR code for a link, text or Wi-Fi network right in your browser. Download it as PNG or SVG. Nothing is sent to a server.">
+  <meta name="theme-color" content="#f7f6f1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Before first paint: the saved choice wins, otherwise follow the device/browser theme.
+    try {
+      var t = localStorage.getItem('qr_theme');
+      if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (t === 'dark') document.documentElement.dataset.theme = 'dark';
+    } catch (e) {}
+  </script>
 </head>
 <body>
-    <div class="container">
-        <p>Enter your text or URL</p>
-        <input type="text" placeholder="Text or URL" id="qrText">
+  <header class="top">
+    <a class="brand" href="./">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="var(--ink)"/><path d="M8 8h7v7H8zM17 8h7v7h-7zM8 17h7v7H8z" fill="none" stroke="var(--bg)" stroke-width="2"/><path d="M18 18h2.5v2.5H18zM21.5 21.5H24V24h-2.5z" fill="var(--accent)"/></svg>
+      QR Code Generator
+    </a>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch dark or light theme">
+      <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </header>
 
-        <div id="imgBox">
-            <img src="" id="qrImage">
-        </div>
+  <main class="app">
+    <section class="panel form">
+      <div class="tabs" role="tablist" aria-label="QR code type">
+        <button type="button" role="tab" class="tab" id="tab-text" aria-selected="true" aria-controls="pane-text">Link or text</button>
+        <button type="button" role="tab" class="tab" id="tab-wifi" aria-selected="false" aria-controls="pane-wifi">Wi-Fi</button>
+      </div>
 
-        <button onclick="generateQR()">Generate QR Code</button>
-    </div>
+      <div id="pane-text" role="tabpanel" aria-labelledby="tab-text">
+        <label class="field">
+          <span>Link or text</span>
+          <textarea id="text" rows="4" placeholder="https://example.com" spellcheck="false"></textarea>
+        </label>
+      </div>
 
-    <script>
+      <div id="pane-wifi" role="tabpanel" aria-labelledby="tab-wifi" hidden>
+        <label class="field">
+          <span>Network name</span>
+          <input id="ssid" type="text" autocomplete="off" spellcheck="false" placeholder="My Wi-Fi">
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="wifi-pass" type="text" autocomplete="off" spellcheck="false">
+        </label>
+        <label class="field">
+          <span>Security</span>
+          <select id="wifi-sec">
+            <option value="WPA">WPA / WPA2 / WPA3</option>
+            <option value="WEP">WEP</option>
+            <option value="nopass">None (open network)</option>
+          </select>
+        </label>
+        <p class="note">Scan with a phone camera to join the network.</p>
+      </div>
 
-let imgBox = document.getElementById("imgBox")
-let qrImage = document.getElementById("qrImage")
-let qrText = document.getElementById("qrText")
+      <label class="field size">
+        <span>Download size</span>
+        <select id="size">
+          <option value="512">512 × 512</option>
+          <option value="1024" selected>1024 × 1024</option>
+          <option value="2048">2048 × 2048</option>
+        </select>
+      </label>
+    </section>
 
-function generateQR(){
-    if(qrText.value.length > 0){
-        qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrText.value;
-        imgBox.classList.add("show-img");  
-    }else{
-        qrText.classList.add("error");
-        setTimeout(()=>{
-            qr.text.classList.add('error')
-        }, 1000)
-    }
-}
+    <section class="panel preview" aria-live="polite">
+      <div class="code-box">
+        <canvas id="canvas" width="320" height="320" aria-label="QR code" hidden></canvas>
+        <p class="empty" id="empty">Type a link or text to make a QR code.</p>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="png-btn" type="button" disabled>Download PNG</button>
+        <button class="btn" id="svg-btn" type="button" disabled>Download SVG</button>
+      </div>
+      <p class="note">Made in your browser. Nothing is sent to a server.</p>
+    </section>
+  </main>
 
-    </script>
+  <footer class="foot">
+    <a href="https://zakyprojects.github.io/">Made by Zakria</a>
+  </footer>
 
+  <script src="vendor/qrcode.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
